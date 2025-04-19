@@ -1,66 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>org.springframework</groupId>
+    <artifactId>jb-hello-world-maven</artifactId>
+    <packaging>jar</packaging>
+    <version>0.2.0</version>
 
-    <groupId>org.web3j.sample</groupId>
-    <artifactId>sample-project-maven</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <!-- tag::joda[] -->
+     <properties>
+           <java.version>1.8</java.version>
+           <maven.compiler.source>1.8</maven.compiler.source>
+           <maven.compiler.target>1.8</maven.compiler.target>
+     </properties>
 
-    <properties>
-        <web3j.version>3.6.0</web3j.version>
-        <logback-classic.version>1.2.3</logback-classic.version>
-        <web3j-maven-plugin.version>0.3.7</web3j-maven-plugin.version>
-        <junit.version>4.12</junit.version>
-        <exec-maven-plugin>1.6.0</exec-maven-plugin>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.web3j</groupId>
-            <artifactId>core</artifactId>
-            <version>${web3j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback-classic.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-        </dependency>
-    </dependencies>
-
+      <dependencies>
+           <dependency>
+               <groupId>joda-time</groupId>
+               <artifactId>joda-time</artifactId>
+               <version>2.2</version>
+           </dependency>
+       </dependencies>
+       <!-- end::joda[] -->
+       
     <build>
         <plugins>
             <plugin>
-                <groupId>org.web3j</groupId>
-                <artifactId>web3j-maven-plugin</artifactId>
-                <version>${web3j-maven-plugin.version}</version>
-                <configuration>
-                    <soliditySourceFiles>
-                        <directory>src/main/solidity</directory>
-                        <includes>
-                            <include>*.sol</include>
-                        </includes>
-                    </soliditySourceFiles>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven-plugin}</version>
-                <configuration>
-                    <mainClass>org.web3j.sample.Application</mainClass>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>hello.HelloWorld</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>
